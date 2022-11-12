@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:orientation="vertical"
+    android:background="@color/fbWhite"
+
+    tools:context=".userFile.shop.shop_view_profile"
+    tools:ignore="ExtraText,UselessParent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:id="@+id/toolbarID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:translationZ="3dp"
+            tools:context=".loginAndRegistration.RegistrationForOwner"
+            tools:ignore="ExtraText,ScrollViewSize,UselessLeaf">
+
+            <LinearLayout
+                android:id="@+id/backLayoutShop"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:ignore="InefficientWeight,MissingConstraints,RtlSymmetry">
+
+                <ImageView
+                    android:id="@+id/backArrowImage"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_arrowback_white"
+                    tools:ignore="ContentDescription,NestedWeights"
+                    tools:layout_editor_absoluteX="339dp"
+                    tools:layout_editor_absoluteY="122dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/infoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+
+            <TextView
+                android:id="@+id/editShop"
+                android:layout_width="70dp"
+                android:layout_marginTop="125dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="1dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/stlye_border_textview_edit"
+                android:padding="5dp"
+                android:text="Edit"
+                android:layout_alignParentEnd="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="3dp"
+                tools:ignore="HardcodedText" />
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="#99454545">
+
+                <ImageView
+                    android:id="@+id/view_shop_coverImageID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/noimage" />
+            </FrameLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:background="@color/white"
+                android:layout_marginTop="113dp"
+                app:cardCornerRadius="50dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/view_shop_Profile"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/noimage" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/view_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="84dp"
+                android:layout_marginTop="117dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/view_shop_verified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="85dp"
+                android:layout_marginTop="137dp"
+                android:textColor="@color/semiWhite"
+                android:text="Verified"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/view_shop_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="156dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:text="N/A | 0 Followers"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="79dp"
+                android:layout_marginTop="155dp"
+                android:src="@drawable/icon_star" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoLayout"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Shop Link:"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/view_shop_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21.5dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="91dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text=""
+                android:textColor="#FB8C00"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+
+        </RelativeLayout>
+
+ </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:background="@color/white"
+    tools:context=".screenLoading.screen_popupdialog"
+    >
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
+        tools:ignore="ScrollViewSize">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/textView2"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/icon_style"
+            android:translationZ="3dp" />
+
+        <ImageView
+            android:id="@+id/imageHugID"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@id/textView2"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/icon_kawaii_three"
+            tools:ignore="ContentDescription,MissingConstraints,ObsoleteLayoutParam" />
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/moresugar_regular"
+            android:text="Registration"
+            android:textAlignment="center"
+            android:textColor="@color/material_blue_grey_80"
+            android:textSize="35dp"
+            android:translationZ="90dp"
+            tools:ignore="HardcodedText,MissingConstraints,ObsoleteLayoutParam,SpUsage" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView4"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppinsregular"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="We are here to help you get the best breeder service and pets online."
+            android:textAlignment="center"
+            android:textColor="@color/safe_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:translationZ="3dp"
+            tools:ignore="HardcodedText,MissingConstraints,ObsoleteLayoutParam,SpUsage" />
+
+        <Button
+
+            android:id="@+id/petOwnerButtonDialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/imageHugID"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/dropshadow_two"
+            android:backgroundTint="@color/brown"
+            android:fontFamily="@font/bobble"
+            android:onClick="Owner_onClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="PET OWNER"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            tools:ignore="HardcodedText,MissingConstraints,ObsoleteLayoutParam,RtlHardcoded,UsingOnClickInXml" />
+
+        <Button
+            android:id="@+id/petBreederButtonDialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/petOwnerButtonDialog"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dropshadow_two"
+            android:backgroundTint="@color/beige"
+            android:fontFamily="@font/bobble"
+            android:onClick="Breeder_onClick"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="PET BREEDER"
+            android:textColor="@color/material_blue_grey_80"
+            android:textSize="19sp"
+            tools:ignore="HardcodedText,MissingConstraints,ObsoleteLayoutParam,RtlHardcoded,UsingOnClickInXml" />
+
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,60 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:scrollbars="none"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/vaccine_save_textout"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/stlye_border_relative_two"
+            android:layout_marginEnd="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vaccine_save_count"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/brownish"
+            android:text="hold"
+            android:textColor="@color/black"
+             />
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/vaccine_save_remove"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/shape"
+            android:backgroundTint="#F4511E"
+            android:elevation="5dp"
+            android:text="Remove"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+
+</ScrollView>

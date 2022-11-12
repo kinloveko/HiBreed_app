@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/dashboard_layout"
+    tools:context=".userFile.dashboard.user_dashboard">
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/OwnerBottom_navigation"
+    app:itemIconSize="28dp"
+    android:background="@drawable/dropshadow_fouro"
+    app:labelVisibilityMode="labeled"
+        android:visibility="gone"
+        app:elevation="-3dp"
+    app:itemIconTint="@drawable/bottom_owner_navigation_color"
+    app:itemTextColor="@color/black"
+    app:menu="@menu/owner_bn_menu"
+    />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BreederBottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dropshadow_fouro"
+        app:itemIconSize="28dp"
+        app:elevation="-3dp"
+        app:itemIconTint="@drawable/bottom_breeder_navigation_color"
+        app:itemTextColor="@color/black"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/breeder_bn_menu" />
+
+</LinearLayout>

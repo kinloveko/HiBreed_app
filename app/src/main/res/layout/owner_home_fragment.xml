@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:background="@color/white"
+    tools:context=".userFile.home.user_home_fragment"
+  >
+
+    <ScrollView
+        android:id="@+id/home_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/profileLayoutID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/poppinsemibold"
+                    android:gravity="center"
+
+                    android:text="hiBreed"
+                    android:textColor="@color/material_blue_grey_80"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:ignore="HardcodedText,MissingConstraints,RtlSymmetry" />
+
+                <androidx.cardview.widget.CardView
+
+                    android:id="@+id/searchcarddView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:backgroundTint="#EFEFEF"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/messagecarddView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/billingImage2"
+                        android:layout_width="30dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Profile"
+                        android:src="@drawable/icon_search"
+                        app:civ_border_color="@color/mustard"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/messagecarddView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:backgroundTint="#5CAF0C"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/messageImage2"
+                        android:layout_width="30dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Message"
+                        android:src="@drawable/icon_shoppingcart"
+                        app:civ_border_color="@color/mustard"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/mustard"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Profile"
+                        android:translationZ="3dp"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="2dp"
+                        app:civ_circle_background_color="@color/black"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/style_border"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/imageSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:elevation="3dp"
+                        app:iss_auto_cycle="true"
+                        app:iss_delay="3000"
+                        android:layout_marginEnd="5dp"
+                        app:iss_period="3000"
+                      />
+
+                </LinearLayout>
+        
+            </androidx.cardview.widget.CardView>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+
+                        <Button
+                            android:layout_marginBottom="2dp"
+                            android:id="@+id/showAll_button"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="0.5"
+                            android:text="Show All"
+                            android:textAllCaps="false"
+                            android:background="@drawable/stlye_border_relative_three"
+                            android:layout_marginEnd="5dp"
+                            android:textSize="11sp"
+                            android:textColor="@color/material_blue_grey_90"
+                            tools:ignore="HardcodedText" />
+                        <Button
+                            android:id="@+id/male_button"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="0.5"
+                            android:textAllCaps="false"
+                            android:layout_marginEnd="5dp"
+                            android:textSize="11sp"
+                            android:background="@drawable/stlye_border_relative_three"
+                            android:text="Male Puppy" />
+
+                        <Button
+                            android:id="@+id/female_button"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="0.5"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/stlye_border_relative_three"
+                            android:text="Female Puppy" />
+                        <Button
+                            android:id="@+id/service_button"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="0.5"
+                            android:textSize="11sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/stlye_border_relative_three"
+                            android:text="Services" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+
+            </LinearLayout>
+    </ScrollView>
+</FrameLayout>

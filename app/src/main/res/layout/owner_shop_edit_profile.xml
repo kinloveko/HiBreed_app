@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:orientation="vertical"
+    android:background="@color/fbWhite"
+
+    android:paddingBottom="10dp"
+    tools:context=".userFile.shop.shop_view_profile"
+    tools:ignore="ExtraText,UselessParent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:id="@+id/toolbarID"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+
+            tools:context=".loginAndRegistration.RegistrationForOwner"
+            tools:ignore="ExtraText,ScrollViewSize,UselessLeaf">
+
+            <ImageView
+                android:id="@+id/editShop"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/icon_check_grey"
+
+                android:text="Edit"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="3dp"
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/backLayoutShopEdit"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Edit Shop"
+                android:textColor="@color/material_blue_grey_80"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:id="@+id/backLayoutShopEdit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="InefficientWeight,MissingConstraints,RtlSymmetry">
+
+                <ImageView
+                    android:id="@+id/shop_edit_backArrowImage"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_arrowback"
+                    tools:ignore="ContentDescription,NestedWeights"
+                    tools:layout_editor_absoluteX="339dp"
+                    tools:layout_editor_absoluteY="122dp" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/toolbarID"
+            android:id="@+id/infoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+
+                android:foreground="#99000000">
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/view_shop_coverImageID"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/noimage" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_shop_Profile"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerInParent="true"
+                android:translationZ="3dp"
+                android:background="@color/white"
+                app:cardCornerRadius="50dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/view_shop_Profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/noimage" />
+                <FrameLayout
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:foreground="#9C2B2B2B">
+                </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textSize="11dp"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:layout_gravity="bottom"
+                    tools:ignore="RtlCompat" />
+            </androidx.cardview.widget.CardView>
+            
+            <FrameLayout
+                android:id="@+id/frameLayoutID"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:foreground="#99454545">
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Tap to Change"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/shopnameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoLayout"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Shop Name:"
+                android:textColor="@color/material_blue_grey_95"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/shop_edit_shopName"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@id/arrowRightID"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppinsemibold"
+                android:maxLines="1"
+                android:text="Shop name"
+                android:textAlignment="textEnd"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/arrowRightID"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/profile_arrowright"
+
+                tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/bioLayout"
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shopnameLayout"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Bio:"
+                android:textColor="@color/material_blue_grey_95"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/shop_edit_Bio"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@id/arrowRightIDBio"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Bio"
+                android:textAlignment="textEnd"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/arrowRightIDBio"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/profile_arrowright"
+
+                tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/genderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bioLayout"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"
+            tools:ignore="OnClick,UsingOnClickInXml">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Gender:"
+                android:textColor="@color/material_blue_grey_95"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/shop_edit_Gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@id/arrowRightIDGender"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Gender"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/arrowRightIDGender"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/profile_arrowright"
+
+                tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/birthdayLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genderLayout"
+            android:layout_marginTop="2dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Birthday:"
+                android:textColor="@color/material_blue_grey_95"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/shop_edit_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@id/arrowRightIDBirthday"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Birthday"
+                android:textSize="13sp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/arrowRightIDBirthday"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/profile_arrowright"
+                tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

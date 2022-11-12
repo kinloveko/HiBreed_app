@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  android:background="@color/white"
+    tools:context=".screenLoading.screen_WelcomeToHiBreed">
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        tools:ignore="ScrollViewSize">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="-50dp"
+            android:layout_marginTop="-20dp"
+            android:src="@drawable/icon_sunny" />
+
+
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-20dp"
+            android:layout_marginEnd="-50dp"
+            android:src="@drawable/icon_sunny" />
+
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/moresugar_regular"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="Welcome to"
+            android:textAlignment="center"
+            android:textColor="#FB8C00"
+            android:textSize="55sp"
+            android:translationZ="3dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textView8"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/moresugar_regular"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="hiBreed"
+            android:textAlignment="center"
+            android:textColor="#FB8C00"
+            android:textSize="60sp"
+            android:translationZ="3dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/textView8"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="-65dp"
+            android:src="@drawable/icon_cat" />
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/textView8"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="-65dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/icon_cat_two" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/textView10"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@id/img2"
+            android:layout_toEndOf="@id/img1"
+            android:src="@drawable/paw"
+            android:translationZ="3dp" />
+
+        <RelativeLayout
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView8"
+            android:layout_marginTop="160dp"
+            android:background="@drawable/stlye_border_relative_four"
+            android:backgroundTint="#fff8e5"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/stlye_border_relative_four"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="10dp"
+                android:text="&quot;Finding a breeder and a wanted pet has never been so easy! With Hi-Breed, you can easily contact and hire a professional pet breeder with the services they offer and book appointments.&quot;"
+                android:textAlignment="center"
+                android:textColor="#354259"
+                android:textSize="20dp"
+                android:translationZ="3dp"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/Button_signInID"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/textView9"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/dropshadow_two"
+            android:backgroundTint="@color/brown"
+            android:fontFamily="@font/bobble"
+            android:onClick="SignIn_Onclick"
+            android:text="Sign in"
+            android:textColor="@color/white"
+            android:textSize="23dp"
+            tools:ignore="HardcodedText,SpUsage,UsingOnClickInXml" />
+
+        <Button
+            android:id="@+id/Button_createAccountID"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/Button_signInID"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/dropshadow_two"
+            android:backgroundTint="@color/beige"
+            android:elevation="3dp"
+            android:fontFamily="@font/bobble"
+            android:onClick="createAccount_Onclick"
+            android:text="Create an account"
+
+            android:textColor="@color/material_blue_grey_80"
+            android:textSize="23dp"
+            tools:ignore="HardcodedText,SpUsage,UsingOnClickInXml" />
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Hi-Breed</string>
+
+    <string name="companyNameDescription">&#xA9; HI - BREED COMPANY  2022</string>
+    <string name="friendlyTip1">Friendly tip: Don\'t Share your OTP to anyone.</string>
+    <string name="friendlyTip2">Friendly Tip: Choose according to your preference.</string>
+    <string name="friendlyTip3">Hi - Breed Company, EST 2022</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="inputTextHere">Input text here</string>
+</resources>

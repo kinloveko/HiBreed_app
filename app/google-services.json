@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "689097818559",
+    "firebase_url": "https://hi-breed-ca22b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hi-breed-ca22b",
+    "storage_bucket": "hi-breed-ca22b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689097818559:android:e92f024a4bcbf17ccbe10a",
+        "android_client_info": {
+          "package_name": "com.example.hi_breed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689097818559-17oj6jaa9a2ovabg3dtf0ftt2shrodpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUmYBjxAurcy4ju-gIr7dBLiD6G3mzN58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689097818559-17oj6jaa9a2ovabg3dtf0ftt2shrodpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

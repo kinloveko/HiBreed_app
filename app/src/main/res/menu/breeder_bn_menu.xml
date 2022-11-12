@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ExtraText">
+
+//home
+        <item
+            android:id="@+id/breeder_homeItem"
+            android:title="Home"
+            android:icon="@drawable/nav_home"
+            android:state_checked="true"
+
+            android:background="@drawable/nav_home"
+            tools:ignore="ExtraText,HardcodedText" />
+//Likes
+        <item
+              android:id="@+id/breeder_likesItem"
+              android:title="Likes"
+
+
+              android:icon="@drawable/nav_likes"
+              tools:ignore="HardcodedText" />
+//Shop
+        <item
+            android:id="@+id/breeder_shop"
+            android:title="Shop"
+            android:icon="@drawable/nav_store"
+            tools:ignore="HardcodedText" />
+//Orders
+        <item
+              android:id="@+id/breeder_Order"
+              android:title="Orders"
+              android:icon="@drawable/icon_shoppingbag"
+              tools:ignore="HardcodedText" />
+//profile
+        <item android:id="@+id/breeder_profileItem"
+              android:title="Profile"
+              android:icon="@drawable/nav_account"
+              tools:ignore="HardcodedText" />
+
+
+</menu>

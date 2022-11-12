@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="10dp"
+    android:layout_height="match_parent"
+    tools:context=".userFile.profile.user_profile_edit">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5sp"
+        android:layout_marginStart="5sp"
+        android:layout_marginEnd="5sp"
+        tools:context=".loginAndRegistration.RegistrationForOwner"
+        tools:ignore="ExtraText,ScrollViewSize,UselessLeaf">
+
+        <LinearLayout
+            android:id="@+id/profileLayoutID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            //profile
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="319dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/style_border_all"
+                android:orientation="vertical">
+                //back button
+
+                <LinearLayout
+                    android:id="@+id/backLayout"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.2"
+                    android:background="@color/float_transparent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="InefficientWeight,MissingConstraints,RtlSymmetry">
+
+                    <ImageView
+                        android:id="@+id/backArrowImage"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:src="@drawable/icon_arrowback"
+                        tools:ignore="ContentDescription,NestedWeights"
+                        tools:layout_editor_absoluteX="339dp"
+                        tools:layout_editor_absoluteY="122dp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/profileTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsemibold"
+                    android:gravity="center"
+                    android:text="Edit Profile"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.615"
+                    tools:ignore="HardcodedText"
+                    tools:layout_editor_absoluteX="16dp" />
+                //card view
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="180dp"
+
+                    android:layout_height="180dp"
+                    android:layout_marginTop="60dp"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:contentDescription="Profile"
+                        android:src="@drawable/noimage"
+                        app:civ_border_color="@color/grey"
+                        app:civ_border_width="2dp"
+                        tools:ignore="HardcodedText" />
+
+
+                </androidx.cardview.widget.CardView>
+                //edit layout
+
+                <LinearLayout
+                    android:id="@+id/saveLayout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="150dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/shape_loading"
+                    android:backgroundTint="@color/main_green_stroke_color"
+                    android:orientation="horizontal"
+                    android:translationZ="90dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/editProfiletxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="InefficientWeight,MissingConstraints,RtlSymmetry">
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/icon_check"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/editProfiletxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppinsemibold"
+                    android:gravity="center"
+                    android:text="Edit Picture"
+                    android:textSize="20sp"
+                    android:translationZ="90dp"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    tools:ignore="HardcodedText,MissingConstraints"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <TextView
+                    android:id="@+id/instructionTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:gravity="center"
+                    android:text="Click the ✅ to save"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editProfiletxt"
+                    app:layout_constraintVertical_bias="0.058"
+                    tools:ignore="HardcodedText,MissingConstraints"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            //First name
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/firstname_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_person"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="First name"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            //middle name
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/middle_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_person"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/middle_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="Middle name"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            //Last name
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lastname_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_person"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/last_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="Last name"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            //Address
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/address_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_location"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="Address"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            //Contact
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contact_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="11"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_phone"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/contact_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="Contact Number"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            //zip
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/zip_profInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="4"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/ic_location"
+                tools:ignore="ExtraText,HardcodedText,RtlHardcoded">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/zip_Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/style_border_all"
+                    android:hint="Zip Code"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    tools:layout_editor_absoluteX="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            //Submit
+
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/style_border_all"
+                android:backgroundTint="#FB8C00"
+                android:text="Update"
+                android:textAlignment="center"
+                android:translationZ="3dp"
+                android:elevation="10dp"
+                android:textColor="@color/white"
+                tools:ignore="HardcodedText,UsingOnClickInXml" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/style_border_all"
+                android:backgroundTint="@color/safe_grey"
+                android:text="BACK"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+
+                tools:ignore="HardcodedText,UsingOnClickInXml" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</ScrollView>

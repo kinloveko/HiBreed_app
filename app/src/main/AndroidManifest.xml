@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.hi_breed">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/icon_logoo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/kawaii"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HiBreed"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".userFile.shop.pet.pet_add"
+            android:exported="false" />
+        <activity
+            android:name=".userFile.shop.shop_edit_profile"
+            android:exported="false" />
+        <activity
+            android:name=".userFile.shop.shop_view_profile"
+            android:exported="false" />
+        <activity
+            android:name=".userFile.profile.user_profile_edit"
+            android:exported="false" />
+        <activity
+            android:name=".phoneAccess.phone_UncropperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screenLoading.screen_LoadingBreeders"
+            android:exported="false" />
+        <activity
+            android:name=".screenLoading.screen_popupdialog"
+            android:exported="false" />
+        <activity
+            android:name=".loginAndRegistration.RegistrationForOwner"
+            android:exported="false" />
+        <activity
+            android:name=".loginAndRegistration.RegistrationForBreeder"
+            android:exported="false" />
+        <activity
+            android:name=".screenLoading.screen_WelcomeToHiBreed"
+            android:exported="false" />
+        <activity
+            android:name=".screenLoading.screen_LoadingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".userFile.dashboard.user_dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".loginAndRegistration.Login"
+            android:exported="false" />
+        <activity
+            android:name=".screenLoading.screen_splashScreen_MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

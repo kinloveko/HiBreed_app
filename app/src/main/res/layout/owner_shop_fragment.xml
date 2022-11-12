@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userFile.shop.user_shop_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:background="@color/fbWhite"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/cardView2"
+                    android:layout_width="45dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/icon_petshope"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintCircleRadius="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.466"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/bungeeregular"
+                    android:text="My Shop"
+                    android:textColor="@color/material_blue_grey_80"
+                    android:textSize="21sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.48"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView4"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/semiWhite"
+                    android:backgroundTint="@color/lightWhite"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+
+                        android:src="@drawable/icon_settings"
+
+                        app:layout_constraintHorizontal_bias="0.684"
+                        app:layout_constraintStart_toEndOf="@+id/textView15"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView3"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/semiWhite"
+                    android:backgroundTint="@color/lightWhite"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cardView5"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+
+                        android:src="@drawable/icon_notifempty"
+
+                        app:layout_constraintHorizontal_bias="0.684"
+                        app:layout_constraintStart_toEndOf="@+id/textView15"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView5"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/semiWhite"
+                    android:backgroundTint="@color/lightWhite"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_chat"
+                        app:layout_constraintHorizontal_bias="0.684"
+                        app:layout_constraintStart_toEndOf="@+id/textView15"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profileIconLayout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@id/headerLayout"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/dropshadow_two"
+                android:elevation="3dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="0dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/shop_profileCardView"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="4dp"
+                    android:backgroundTint="@color/brown"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.4"
+                    tools:ignore="MissingConstraints">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/shop_profileImage"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Profile"
+                        android:src="@drawable/noimage"
+                        android:translationZ="3dp"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="2dp"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/shop_userNameTxtView"
+                    android:layout_width="238dp"
+                    android:layout_height="21dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppinsemibold"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/material_blue_grey_80"
+                    android:textSize="13sp"
+                    android:translationZ="3dp"
+                    app:layout_constraintStart_toEndOf="@id/shop_profileCardView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/shop_userLabelTextView"
+                    android:layout_width="169dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/shop_profileCardView"
+                    app:layout_constraintTop_toBottomOf="@+id/shop_userNameTxtView"
+                    app:layout_constraintVertical_bias="0.025"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/viewShopID"
+                    android:layout_width="66dp"
+                    android:layout_height="23dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/stlye_border_textview"
+                    android:fontFamily="@font/poppinsemibold"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="View Shop"
+                    android:textColor="@color/brown"
+                    android:textSize="9sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/shop_userNameTxtView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.506"
+                    tools:ignore="ContentDescription,HardcodedText,MissingConstraints,NestedWeights" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profileIconLayout"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Activity Status"
+
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/OrderStatusLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profileIconLayout"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_border_all_secondary"
+                android:backgroundTint="@color/white"
+                android:elevation="3dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="0dp">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView6"
+                    android:layout_width="80dp"
+                    android:layout_height="82dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="120dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/lightWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.065"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/IDNumberToShip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/poppinsregular"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="To Sell"
+                        android:textAlignment="center"
+                        android:textColor="@color/material_blue_grey_95"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView7"
+                    android:layout_width="80dp"
+                    android:layout_height="82dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/lightWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.481"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/IDNumberCancelled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/poppinsregular"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/CancelledTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="Schedule"
+                        android:textAlignment="center"
+                        android:textColor="@color/material_blue_grey_95"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView10"
+                    android:layout_width="80dp"
+                    android:layout_height="82dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="@color/lightWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.948"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/IDReview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/poppinsregular"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/ReviewTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="Reviews"
+                        android:textAlignment="center"
+                        android:textColor="@color/material_blue_grey_95"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/OrderStatusLayout"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/style_border_all_secondary"
+                android:backgroundTint="@color/float_transparent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/myPetsCardView8"
+                    android:layout_width="150dp"
+                    android:layout_height="97dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/lightWhite"
+                    app:cardCornerRadius="8dp"
+                    android:elevation="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.033"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="41dp"
+                        android:layout_height="42dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:background="@color/color_platteYellow"
+                        android:backgroundTint="@color/breederTheme"
+
+                        app:cardCornerRadius="50dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+
+                            android:src="@drawable/icon_petcare"
+                            app:layout_constraintHorizontal_bias="0.684"
+                            app:layout_constraintStart_toEndOf="@+id/textView15"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="25dp"
+                        android:fontFamily="@font/poppinsemibold"
+                        android:text="My Pets"
+                        android:textColor="@color/material_blue_grey_80"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/myServicesCardView9"
+                    android:layout_width="150dp"
+                    android:layout_height="97dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/lightWhite"
+                    app:cardCornerRadius="5dp"
+                    android:elevation="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:layout_width="41dp"
+                        android:layout_height="41dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:src="@drawable/icon_pet"
+                        app:layout_constraintHorizontal_bias="0.684"
+                        app:layout_constraintStart_toEndOf="@+id/textView15"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="25dp"
+                        android:fontFamily="@font/poppinsemibold"
+                        android:text="Services"
+                        android:textColor="@color/material_blue_grey_80"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+
+                android:id="@+id/textView19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/OrderStatusLayout"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="327dp"
+                android:fontFamily="@font/poppinsemibold"
+                android:text="Pets and Service"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>
