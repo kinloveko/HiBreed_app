@@ -1,14 +1,24 @@
 package com.example.hi_breed.classesFile;
 
 public class Class_BreederClass {
-  String firstName,lastName,middleName,contactNumber,email,address,zipCode,pass,image,breeder,certificate;
+     String firstName;
+    String lastName;
+    String middleName;
+    String contactNumber;
+    String email;
+    String address;
+    String zipCode;
+    String pass;
+    String image;
+    String role;
+    String backgroundImage;
 
 
    public Class_BreederClass(){
 
     }
     public Class_BreederClass(String firstName, String middleName , String lastName, String contactNumber,
-                              String address, String zipCode, String email, String pass, String image, String breeder, String certificate) {
+                              String address, String zipCode, String email, String pass, String image,String backgroundImage, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -18,14 +28,14 @@ public class Class_BreederClass {
         this.zipCode = zipCode;
         this.pass = pass;
         this.image = image;
-        this.breeder = breeder;
-        this.certificate = certificate;
+        this.backgroundImage = backgroundImage;
+        this.role = role;
     }
 
 
 
     public void updateBreeder(String firstName, String middleName , String lastName, String contactNumber,
-                              String address, String zipCode, String image, String owner) {
+                              String address, String zipCode, String image,String backgroundImage, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -33,24 +43,26 @@ public class Class_BreederClass {
         this.address = address;
         this.zipCode = zipCode;
         this.image = image;
-        this.breeder= owner;
+        this.backgroundImage = backgroundImage;
+        this.role= role;
     }
 
 
-    public void setCertificate(String certificate) {
-        this.certificate = certificate;
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 
-    public String getCertificate() {
-        return certificate;
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
-    public String getBreeder() {
-        return breeder;
+
+    public String getRole() {
+        return role;
     }
 
-    public void setBreeder(String owner) {
-            this.breeder = owner;
+    public void setRole(String role) {
+            this.role = role;
     }
 
     public String getImage(){

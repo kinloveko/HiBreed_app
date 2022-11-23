@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,13 +49,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.hi_breed.R;
+import com.example.hi_breed.adapter.petClass;
 import com.example.hi_breed.adapter.petImagesRecyclerAdapter;
-import com.example.hi_breed.classesFile.Class_Breeder_ShopName;
-import com.example.hi_breed.screenLoading.LoadingDialog;
-import com.example.hi_breed.userFile.dashboard.user_dashboard;
 import com.example.hi_breed.userFile.home.user_home_fragment;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.hi_breed.userFile.profile.user_profile_edit;
+import com.example.hi_breed.userFile.shop.user_shop_fragment;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,14 +70,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -187,6 +189,7 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
     //Button
     Button buttonAdd,pet_add_create_Button;
 
+   ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +198,7 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         window.setStatusBarColor(Color.parseColor("#ffc36e"));
-
+        progressDialog = new ProgressDialog(this);
 
         //User
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -797,7 +800,8 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
             Toast.makeText(this,"You Haven't Pick any image",Toast.LENGTH_SHORT).show();
         }
     }
-
+    
+    
     private void compressImages(){
 
         for (int i = 0; i< uri.size(); i++){
@@ -806,40 +810,90 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG,60,stream);
                 byte[] imageByte = stream.toByteArray();
-                uploadToFirebaseStorage(imageByte);
+     /*         uploadToFirebaseStorage(imageByte);*/
             }catch (IOException e){
                 e.printStackTrace();
             }
         }
     }
-
-    private void uploadToFirebaseStorage(byte[] imageByte) {
+    private int upload = 0;
+   
+    private void uploadToFirebaseStorage(int countIDD) {
         String userID="";
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             userID = firebaseUser.getUid();
         }
-        StorageReference fileRef = FirebaseStorage.getInstance().getReference("Breeder pictures/"+userID+"/"+"Pet Image/").child("images"+System.currentTimeMillis()+"_"+userID);
 
-        fileRef.putBytes(imageByte).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        StorageReference ImageFolder = FirebaseStorage.getInstance().getReference("Breeder pictures/"+userID+"/"+"Pet Images/"+"Pet"+countIDD);
+        for(upload = 0;upload<uri.size();upload++){
+                Uri Image = uri.get(upload);
+                StorageReference imageName = ImageFolder.child(Image.getLastPathSegment());
+                imageName.putFile(Image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uris) {
+                                String url = String.valueOf(uris);
+                                StringLink(url,countIDD);
 
+                            }
+                        });
+                    }
+                });
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        }
+    private static int load = 0;
+    private void StringLink(String url,int countIDD) {
+        List<String> hashMap = new ArrayList<String>();
+        hashMap.add(url);
+
+        FirebaseDatabase.getInstance().getReference().child("Breeder").child(firebaseUser.getUid()).child("Breeder Shop").child("Pet").child("Pet"+countIDD).child("pet_images").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Failed to upload",Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<Void> task) {
+
             }
         });
+        firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countIDD).child("pet_images").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+        firebaseDatabase.getReference("Pet").child("Pet"+countIDD).child("pet_images").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+
     }
+
+
+
+    private void transistion(){
+        Thread mSplashThread = new Thread() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(pet_add.this,user_home_fragment.class);
+                pet_add.this.overridePendingTransition(R.drawable.fade_in, R.drawable.fade_out);
+                startActivity(intent);
+                finish();
+            }
+        };
+        mSplashThread.start();
+    }
+
+
+
     int countID = 1;
     private void uploadToFirebaseDatabase() {
         String petName = Objects.requireNonNull(petNameEdit.getText()).toString();
         String description = Objects.requireNonNull(petDescEdit.getText()).toString();
         String colorMarkings = Objects.requireNonNull(petColorEdit.getText()).toString();
         String breedCategory = petBreedTextView.getText().toString();
-
         String genderPet = genderTextView.getText().toString();
         String birthdayPet = petBirthdayTextView.getText().toString();
         String pricePet = petPriceTextView.getText().toString();
@@ -893,16 +947,16 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
                 String text = edit.getText().toString();
                 String countNo = count.getText().toString();
                 saveVaccine.addAll(Arrays.asList(text+":"+countNo));
-                /*   showAllPrompt += "Name"+edit.getText().toString()+" no. of times:"+count.getText().toString()+"\n";*/
+                   showAllPrompt += "Name"+edit.getText().toString()+" no. of times:"+count.getText().toString()+"\n";
             }
 
-            //for printing
+/*            //for printing
 
-              /*  for(int i = 0; i<saveVaccine.size();i++) {
+                for(int i = 0; i<saveVaccine.size();i++) {
                     Toast.makeText(this,saveVaccine.get(0), Toast.LENGTH_SHORT).show();
-                }*/
-        }
 
+        }*/
+  }
         if(genderPet.equals("Gender")){
             Toast.makeText(this, "Please choose the specific gender of your pet", Toast.LENGTH_SHORT).show();
             return;
@@ -922,14 +976,15 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
             return;
         }
 
-        //to save in storage
-        StorageReference petStore =   FirebaseStorage.getInstance().getReference("Breeder pictures/"+
-                firebaseUser.getUid()+"/"+"Pet"+countID+"/").child("images_"+firebaseUser.getUid());
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+
+
         progressDialog.setTitle("Creating your pet details");
         progressDialog.setMessage("Please wait, while we are setting your pet data..");
+
         progressDialog.show();
+        petClass petClass = new petClass(petName,description,colorMarkings,breedCategory,saveVaccine.toString(),genderPet,birthdayPet,pricePet
+                                                ,"",firebaseUser.getUid(),true);
 
         firebaseDatabase.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -938,105 +993,54 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
                     countID = (int) snapshot.child("Pet").getChildrenCount()+1;
 
                     //for Breeder --> Breeder Shop ---> Pet
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Name").setValue(petName);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Description").setValue(description);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Breed").setValue(breedCategory);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Gender").setValue(genderPet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Birthday").setValue(birthdayPet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Price").setValue(pricePet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Images").setValue(uri.toString());
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Breeder").setValue(firebaseUser.getUid());
-
+                    databaseReference.child("Pet").child("Pet"+countID).setValue(petClass);
                     //for Pet parent node
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Name").setValue(petName);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Description").setValue(description);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Breed").setValue(breedCategory);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Gender").setValue(genderPet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Birthday").setValue(birthdayPet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Price").setValue(pricePet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Images").setValue(uri.toString());
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Breeder").setValue(firebaseUser.getUid());
+                    firebaseDatabase.getReference("Pet").child("Pet"+countID).setValue(petClass);
+                    //for Shop parent
+                   firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).setValue(petClass);
+                   //for storage
+                    uploadToFirebaseStorage(countID);
 
 
+                        Toast.makeText(pet_add.this, "Successfully Created", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(progressDialog.isShowing())
+                                    progressDialog.dismiss();
+                                countID =1;
+                                uri.clear();
+                                saveVaccine.clear();
+                                transistion();
+                            }
+                        },2000);
 
-                                //for Shop parent
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Name").setValue(petName);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Description").setValue(description);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Breed").setValue(breedCategory);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Gender").setValue(genderPet);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Birthday").setValue(birthdayPet);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Price").setValue(pricePet);
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Images").setValue(uri.toString());
-                                firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Breeder").setValue(firebaseUser.getUid());
-
-                    compressImages();
-
-                    Toast.makeText(pet_add.this, "Successfully Created", Toast.LENGTH_SHORT).show();
 
                 }else{
+                    //to save image from firebase storage
 
                     //for Breeder --> Breeder Shop ---> Pet
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Name").setValue(petName);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Description").setValue(description);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Breed").setValue(breedCategory);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Gender").setValue(genderPet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Birthday").setValue(birthdayPet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Price").setValue(pricePet);
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Images").setValue(uri.toString());
-                    databaseReference.child("Pet").child("Pet"+countID).child("Pet Breeder").setValue(firebaseUser.getUid());
-
+                    databaseReference.child("Pet").child("Pet"+countID).setValue(petClass);
                     //for Pet parent node
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Name").setValue(petName);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Description").setValue(description);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Breed").setValue(breedCategory);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Gender").setValue(genderPet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Birthday").setValue(birthdayPet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Price").setValue(pricePet);
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Images").setValue(uri.toString());
-                    firebaseDatabase.getReference("Pet").child("Pet"+countID).child("Pet Breeder").setValue(firebaseUser.getUid());
+                    firebaseDatabase.getReference("Pet").child("Pet"+countID).setValue(petClass);
+                    //for Shop parent
+                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).setValue(petClass);
+                    //for storage
+                    uploadToFirebaseStorage(countID);
 
-
-                                   //for Shop parent
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Name").setValue(petName);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Description").setValue(description);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet ColorMarkings").setValue(colorMarkings);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Breed").setValue(breedCategory);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet VacMed").setValue(saveVaccine.toString());
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Gender").setValue(genderPet);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Birthday").setValue(birthdayPet);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Price").setValue(pricePet);
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Images").setValue(uri.toString());
-                                    firebaseDatabase.getReference("Shop").child(firebaseUser.getUid()).child("Pet").child("Pet" + countID).child("Pet Breeder").setValue(firebaseUser.getUid());
-
-                                    compressImages();
-
-
-                    Toast.makeText(pet_add.this, "Successfully Created", Toast.LENGTH_SHORT).show();
-                }
-
-                countID=1;
-                saveVaccine.clear();
-
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(progressDialog.isShowing())
-                        progressDialog.dismiss();
-                        startActivity(new Intent(pet_add.this, user_home_fragment.class));
-                        finish();
+                        Toast.makeText(pet_add.this, "Successfully Created", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(progressDialog.isShowing())
+                                    progressDialog.dismiss();
+                                countID =1;
+                                uri.clear();
+                                saveVaccine.clear();
+                                transistion();
+                            }
+                        },2000);
                     }
-                },1500);
 
             }
 
@@ -1045,8 +1049,6 @@ public class pet_add extends AppCompatActivity implements petImagesRecyclerAdapt
 
             }
         });
-
-
 
     }
 

@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import com.example.hi_breed.R;
 import com.example.hi_breed.userFile.dashboard.user_dashboard;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class screen_splashScreen_MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
+    FirebaseUser user;
     Animation TopAnim,BottomAnim;
     ImageView image;
 
@@ -36,12 +38,13 @@ public class screen_splashScreen_MainActivity extends AppCompatActivity {
 
         image.setAnimation(TopAnim);
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() !=null){
+        if(user !=null){
             startActivity(new Intent(this, user_dashboard.class));
             this.finish();
         }

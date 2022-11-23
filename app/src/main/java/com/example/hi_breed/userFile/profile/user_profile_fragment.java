@@ -1,6 +1,7 @@
 package com.example.hi_breed.userFile.profile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.example.hi_breed.classesFile.Class_BreederClass;
 import com.example.hi_breed.classesFile.Class_OwnerClass;
 import com.example.hi_breed.R;
 import com.example.hi_breed.screenLoading.screen_WelcomeToHiBreed;
+import com.example.hi_breed.userFile.home.user_home_fragment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +33,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -39,14 +47,16 @@ public class user_profile_fragment extends Fragment {
 
     int i = -1;
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReferenceOwner,databaseReferenceBreeder;
+    private FirebaseFirestore firebaseFirestore;
     private FirebaseUser firebaseUser;
+    private DocumentReference documentReference;
     String  userID;
     CircleImageView imageView;
     ConstraintLayout editLayout;
     ConstraintLayout accountLayout,cardLayout,faqLayout,aboutLayout;
     TextView ownerDisplay;
     TextView label;
+
 
     public user_profile_fragment() {
         // Required empty public constructor
@@ -87,8 +97,7 @@ public class user_profile_fragment extends Fragment {
         //firebase
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-        databaseReferenceBreeder = FirebaseDatabase.getInstance().getReference().child("Breeder");
-        databaseReferenceOwner = FirebaseDatabase.getInstance().getReference().child("Owner");
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         ownerDisplay = view.findViewById(R.id.userNameTxtView);
          label = view.findViewById(R.id.userLabelTextView);
@@ -100,8 +109,8 @@ public class user_profile_fragment extends Fragment {
 
         if (firebaseUser != null) {
          userID = firebaseUser.getUid();
-            getUserBreeder(userID);
-
+            documentReference = firebaseFirestore.collection("User").document(userID);
+            getUserBreeder(documentReference);
         }else{
             Toast.makeText(this.getActivity().getApplicationContext(),"No current User",Toast.LENGTH_SHORT).show();
         }
@@ -168,49 +177,40 @@ public class user_profile_fragment extends Fragment {
 
 
 //retrieve the data in the firebase and display it on profile
-    public void getUserBreeder(String userID) {
+    public void getUserBreeder(DocumentReference userID) {
 
-
-       databaseReferenceBreeder.child(userID).child("Breeder Info").addValueEventListener(new ValueEventListener() {
+        userID.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()){
-                        Class_BreederClass breederClass = snapshot.getValue(Class_BreederClass.class);
-
-                        if (breederClass != null) {
-                            String ownerName = breederClass.getFirstName() + " " + breederClass.getMiddleName() + " "
-                                    + breederClass.getLastName();
-                            ownerDisplay.setText(ownerName);
-                            label.setText(breederClass.getBreeder());
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    String role = documentSnapshot.getString("role");
+                    if(role.equals("Pet Breeder")){
+                        Class_BreederClass breederClass = documentSnapshot.toObject(Class_BreederClass.class);
+                        String ownerName = breederClass.getFirstName() + " " + breederClass.getMiddleName() + " "
+                                + breederClass.getLastName();
+                        ownerDisplay.setText(ownerName);
+                        label.setText(breederClass.getRole());
+                        if(breederClass.getImage() ==  "" || breederClass.getImage() == null){
+                            imageView.setImageResource(R.drawable.noimage);
+                        }
+                        else{
                             Picasso.get().load(breederClass.getImage()).into(imageView);
                         }
                     }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-       databaseReferenceOwner.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
-                    Class_OwnerClass ownerProfile = snapshot.getValue(Class_OwnerClass.class);
-                    if (ownerProfile != null) {
-                        String ownerName = ownerProfile.getFirstName() + " " + ownerProfile.getMiddleName() + " "
-                                + ownerProfile.getLastName();
+                    else{
+                        Class_OwnerClass ownerClass = documentSnapshot.toObject(Class_OwnerClass.class);
+                        String ownerName = ownerClass.getFirstName() + " " + ownerClass.getMiddleName() + " "
+                                + ownerClass.getLastName();
                         ownerDisplay.setText(ownerName);
-                        label.setText(ownerProfile.getOwner());
-                        Picasso.get().load(ownerProfile.getImage()).into(imageView);
+                        label.setText(ownerClass.getRole());
+                        if(ownerClass.getImage() ==  "" || ownerClass.getImage() == null){
+                            imageView.setImageResource(R.drawable.noimage);
+                        }
+                        else{
+                            Picasso.get().load(ownerClass.getImage()).into(imageView);
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
   }

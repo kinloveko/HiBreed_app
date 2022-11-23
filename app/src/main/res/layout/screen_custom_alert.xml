@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.261">
+
+        <TextView
+            android:id="@+id/screen_custom_alert_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/poppinsemibold"
+            android:translationZ="90dp"
+            android:layout_marginTop="20dp"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/screen_custom_alert_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Message"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textSize="13sp"
+            tools:ignore="HardcodedText" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/screen_custom_alert_gif"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:src="@drawable/kawai_gif_one" />
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/stlye_border_relative"
+            android:paddingBottom="5dp"
+            android:layout_height="45dp">
+
+
+            <EditText
+                android:id="@+id/screen_custom_editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/screen_custom_valid_icon"
+                android:background="@color/float_transparent"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/screen_custom_valid_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:visibility="invisible"
+                android:layout_marginEnd="3dp"
+                android:layout_toStartOf="@id/screen_custom_clearText"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_loading"
+                android:backgroundTint="@color/main_green_stroke_color"
+                android:src="@drawable/icon_check"/>
+            <TextView
+                android:id="@+id/screen_custom_clearText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="10dp"
+                android:text="CLEAR"
+                android:textColor="@color/red_btn_bg_color"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/screen_custom_error_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Error"
+            android:visibility="gone"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="20dp"
+            android:textSize="13sp"
+            android:layout_marginTop="-15dp"
+            android:textColor="#EF5031"
+            android:layout_gravity="center"
+
+            tools:ignore="HardcodedText" />
+        <TextView
+                android:id="@+id/screen_custom_alert_loadingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/LOADING"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+
+                android:fontFamily="@font/poppinsemibold"
+                android:textColor="@color/material_blue_grey_80"
+                android:textSize="20sp"/>
+        <LinearLayout
+            android:id="@+id/screen_custom_alert_buttonLayout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/screen_custom_dialog_btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/grey"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textColor="@color/white"
+                app:shapeAppearance="@style/ShapeAppearance.Capsule" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/screen_custom_alert_dialog_btn_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/brownish"
+                android:text="@android:string/ok"
+
+                android:textColor="@color/white"
+                app:shapeAppearance="@style/ShapeAppearance.Capsule" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
+        android:id="@+id/appCompatImageView"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="-28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:srcCompat="@drawable/dialog_search_borders" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

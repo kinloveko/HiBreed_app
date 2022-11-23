@@ -1,13 +1,25 @@
 package com.example.hi_breed.classesFile;
 
 public class Class_OwnerClass {
-  String firstName,lastName,middleName,contactNumber,email,address,zipCode,pass,image,owner;
+  String firstName;
+    String lastName;
+    String middleName;
+    String contactNumber;
+    String email;
+    String address;
+    String zipCode;
+    String pass;
+    String image;
+
+
+    String backgroundImage;
+    String role;
 
    public Class_OwnerClass(){
 
     }
     public Class_OwnerClass(String firstName, String middleName , String lastName, String contactNumber,
-                            String address, String zipCode, String email, String pass, String image, String owner) {
+                            String address, String zipCode, String email, String pass, String image,String backgroundImage, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -17,11 +29,11 @@ public class Class_OwnerClass {
         this.zipCode = zipCode;
         this.pass = pass;
         this.image = image;
-        this.owner = owner;
+        this.role = role;
     }
 
     public void updateOwner(String firstName, String middleName ,String lastName, String contactNumber,
-                      String address, String zipCode,String image,String owner) {
+                      String address, String zipCode,String image,String backgroundImage,String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -29,14 +41,25 @@ public class Class_OwnerClass {
         this.address = address;
         this.zipCode = zipCode;
         this.image = image;
-        this.owner = owner;
-    }
-    public String getOwner() {
-        return owner;
+        this.role = role;
+        this.backgroundImage = backgroundImage;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getImage(){
@@ -107,7 +130,8 @@ public class Class_OwnerClass {
         return zipCode;
     }
 
-    public void setZipCde(String zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
+
 }

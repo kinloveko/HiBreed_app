@@ -7,7 +7,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +40,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +53,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -56,7 +61,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -64,11 +73,15 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import pl.droidsonroids.gif.GifImageView;
 
 public class RegistrationForBreeder extends AppCompatActivity implements registrationRecyclerAdapter.CountOfImagesWhenRemoved, registrationRecyclerAdapter.itemClickListener {
 //pattern
@@ -87,6 +100,7 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
 
     private FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
+    FirebaseFirestore firestore;
     StorageReference storageReference;
     //variable declaration
     RecyclerView recyclerView;
@@ -95,7 +109,7 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
     ArrayList <Uri> uri = new ArrayList<>();
     Uri imageUri;
     ActivityResultLauncher<Intent> activityResultLauncher;
-
+    StorageReference fileRef;
     CardView dropImageCardView;
     ImageView dropImageView;
     Button submit;
@@ -108,18 +122,9 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_for_breeder);
-        Window window = this.getWindow();
-
-// clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-// finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.breederTheme));
-        window.setNavigationBarColor(ContextCompat.getColor(this,R.color.semigreen));
-
+        //Firebase authentication
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         //for recycler view
             recyclerView = findViewById(R.id.recyclerView_gallery_images);
         //for adapter
@@ -134,8 +139,7 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
         dropImageCardView = findViewById(R.id.dropImageCardView);
     //ImageView
         dropImageView = findViewById(R.id.dropImageView);
-    //Firebase authentication
-        mAuth = FirebaseAuth.getInstance();
+
     //InputText
         submit = findViewById(R.id.submitButton);
         reg_first = findViewById(R.id.firstName_Input);
@@ -171,13 +175,13 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s != null && s.length() >= 2) {
-                    reg_first.setError("");
+
                     reg_first.setHelperText("First name is valid");
-                    reg_first.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                     reg_first.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                 } else {
-                    reg_first.setError("Name must have 2 characters");
-                    reg_first.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                    reg_first.setHelperText("Name must have 2 characters");
+                    reg_first.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
+
                 }
             }
 
@@ -197,13 +201,13 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() >= 2) {
-                    reg_last.setError("");
+
                     reg_last.setHelperText("Last name is valid");
-                    reg_last.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                     reg_last.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                 } else {
-                    reg_last.setError("Last name must have 2 letters");
-                    reg_last.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                    reg_last.setHelperText("Last name must have 2 letters");
+                    reg_last.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
+
                 }
             }
 
@@ -228,19 +232,16 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
                     if(m.matches()) {
                         reg_contact.setHelperText("Contact is valid");
                         reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
-                        reg_contact.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
-                        reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
 
                     }else{
-                        reg_contact.setError("Enter a valid Phone number ex. 09106851425");
-                        reg_contact.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                        reg_contact.setHelperText("Enter a valid Phone number ex. 09106851425");
+                        reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
 
                     }
                 }
                 else {
-                    reg_contact.setError("Contact must 11 numbers");
-                    reg_contact.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
-
+                    reg_contact.setHelperText("Contact must 11 numbers");
+                    reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 }
             }
 
@@ -266,16 +267,15 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
                     if (Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), s)) {
                         reg_email.setHelperText("Email is valid");
                         reg_email.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
-                        reg_email.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
 
                     } else {
-                        reg_email.setError("Enter a valid email ex. example@gmail.com");
-                        reg_email.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                        reg_email.setHelperText("Enter a valid email ex. example@gmail.com");
+                        reg_email.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                     }
                 }
                 else{
-                    reg_email.setError("Please enter a valid Address");
-                    reg_email.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                    reg_email.setHelperText("Please enter a valid Address");
+                    reg_email.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 }
             }
 
@@ -296,22 +296,19 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
 
                 if (s != null) {
                     if(s.length()>2){
-                        reg_address.setError("");
                         reg_address.setHelperText("Address is valid");
-                        reg_address.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                         reg_address.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                     }
                     else{
-                        reg_address.setError("Please input your correct address");
-                        reg_address.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+
+                        reg_address.setHelperText("Please input your correct address");
+                        reg_address.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                     }
 
 
                 } else {
-                    reg_address.setHelperText("");
-                    reg_address.setError("Please input your address");
-                    reg_address.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
-
+                    reg_address.setHelperText("Please input your address");
+                    reg_address.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 }
 
             }
@@ -332,11 +329,10 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() == 4) {
                     reg_zip.setHelperText("Zipcode is valid");
-                    reg_zip.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                     reg_zip.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                 } else {
-                    reg_zip.setError("Zipcode must 4 numbers");
-                    reg_zip.setBoxStrokeErrorColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
+                    reg_zip.setHelperText("Zipcode must 4 numbers");
+                    reg_zip.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 }
             }
 
@@ -359,21 +355,18 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
                     Matcher m = p.matcher(s);
                     if(m.matches()) {
                         if (s.length() >= 4) {
-                            reg_password.setError("");
                             reg_password.setHelperText("Valid password!");
-                            reg_password.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#5CCD08")));
+                            reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
                         }
                     }
                     else{
-                        reg_password.setError(passError);
-                        reg_password.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
-
+                        reg_password.setHelperText(passError);
+                        reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                     }
                 }
                 else{
-                    reg_password.setError("Please enter a password");
-                    reg_password.setBoxStrokeColorStateList(android.content.res.ColorStateList.valueOf(Color.parseColor("#FF0026")));
-
+                    reg_password.setHelperText("Please enter a password");
+                    reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 }
             }
 
@@ -509,78 +502,73 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
 
 //first condition
         if (first.isEmpty()) {
-            reg_first.setError("Please input your firstname");
+            reg_first.setHelperText("*Please enter your first name");
+            reg_first.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_firstEdit.requestFocus();
-
             return;
-        } else if (first.length() <2) {
-            reg_first.setError("Firstname must contains 2 characters");
+        }
+        else if (first.length() <2) {
+            reg_first.setHelperText("Name must have 2 characters");
+            reg_first.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_firstEdit.requestFocus();
-
             return;
-
-        } else {
-
-            reg_first.setError("");
-        }//end of firstname
+        } //end of firstname
 //last condition
         if (last.isEmpty()) {
-            reg_last.setError("Please input your lastname");
+            reg_last.setHelperText("Please enter your last name");
+            reg_last.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#5CCD08")));
             reg_lastEdit.requestFocus();
-
             return;
-        } else if (last.length() <2) {
-            reg_last.setError("Lastname must contains 2 characters");
+        }
+        else if (last.length() <2) {
+            reg_last.setHelperText("Last name must have 2 letters");
+            reg_last.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_lastEdit.requestFocus();
-
             return;
-        } else {
-
-            reg_last.setError("");
-        }//end of lastname
+        } //end of lastname
 //contact condition
         CharSequence phonecs = reg_contactEdit.getText();
         if (contact.isEmpty()) {
-            reg_contact.setError("Please input contact!");
-
+            reg_contact.setHelperText("Please input your contact number");
+            reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             return;
-        } else if (contact.length() != 11) {
-            reg_contact.setError("Contact must 11 numbers");
+        }
+        else if (contact.length() != 11) {
+            reg_contact.setHelperText("Contact must 11 numbers");
+            reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_contactEdit.requestFocus();
 
             return;
-        } else if (!Pattern.matches(phonePattern.pattern(), phonecs)) {
-            reg_contact.setError("Input valid number ex.09106851425");
+        }
+        else if (!Pattern.matches(phonePattern.pattern(), phonecs)) {
+            reg_contact.setHelperText("Enter a valid Phone number ex. 09106851425");
+            reg_contact.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_contactEdit.requestFocus();
-
             return;
-        } else {
-            reg_contact.setError("");
-
         }//end of contact
 
 //address
         if(address.isEmpty()){
-            reg_address.setError("Please input your current address");
+            reg_address.setHelperText("Please input your correct address");
+            reg_address.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_addressEdit.requestFocus();
 
             return;
         }
-        else{
-            reg_address.setError("");
-
-        }//end of address
+       //end of address
 //zip
         if(zip.isEmpty())
         {
-            reg_zip.setError("Please input your zip code");
+            reg_zip.setHelperText("Please input your zip code");
+            reg_zip.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_zipEdit.requestFocus();
 
             return;
         }
         else if (zip.length()!=4)
         {
-            reg_zip.setError("Zip code must 4 characters");
+            reg_zip.setHelperText("Zipcode must 4 numbers");
+            reg_zip.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
             reg_zipEdit.requestFocus();
 
             return;
@@ -608,8 +596,6 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             //recycler view
             recyclerView.setVisibility(View.INVISIBLE);
             //TextView
-            CardView dropCardView;
-
             dropImageTextVIew.setVisibility(View.GONE);
             dropImageCardView.setVisibility(View.GONE);
             //Edit layout to invisible
@@ -621,7 +607,6 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             reg_zipEdit.setVisibility(View.INVISIBLE);
 
             //set visible
-
             ScrollView sv = (ScrollView)findViewById(R.id.scrollID);
             sv.scrollTo(-1500, sv.getTop());
             setMargins(reg_first, 0,0,0,0);
@@ -635,12 +620,14 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
 //email
             CharSequence emailcs = reg_emailEdit.getText();
             if (email.isEmpty()) {
-                reg_email.setError("Please input your email");
+                reg_email.setHelperText("Please input your email");
+                reg_email.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 reg_emailEdit.requestFocus();
 
                 return;
             } else if (!(Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), emailcs))) {
-                reg_email.setError("Please input a valid email ex. example@gmail.com");
+                reg_email.setHelperText("Enter a valid email ex. example@gmail.com");
+                reg_email.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 reg_emailEdit.requestFocus();
                 return;
             }
@@ -654,19 +641,23 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             CharSequence passwordcs = reg_passwordEdit.getText();
 
             if(password.isEmpty()){
-                reg_password.setError("Please enter your password");
+                reg_password.setHelperText("Please input your password");
+                reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 reg_passwordEdit.requestFocus();
 
                 return;
             }
             else if(password.length()<5){
-                reg_password.setError("Password must have 5 characters");
+
+                reg_password.setHelperText("Password must have 5 characters");
+                reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 reg_passwordEdit.requestFocus();
 
                 return;
             }
             else if(!(Pattern.matches(p.pattern(),passwordcs))){
-                reg_password.setError(passError);
+                reg_password.setHelperText(passError);
+                reg_password.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#F4511E")));
                 reg_passwordEdit.requestFocus();
 
                 return;
@@ -681,131 +672,152 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
         }
 
 
-
         mAuth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
                     @Override
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+
+
 
                         boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
 
                         if (isNewUser) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationForBreeder.this);
+                            View view = View.inflate(RegistrationForBreeder.this,R.layout.screen_custom_alert,null);
+                            TextView title = view.findViewById(R.id.screen_custom_alert_title);
+                            builder.setCancelable(false);
+                            AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+                            imageViewCompat.setImageURI(Uri.parse(String.valueOf(R.drawable.icon_check_grey)));
+                            title.setVisibility(View.GONE);
+                            TextView message = view.findViewById(R.id.screen_custom_alert_message);
+                            message.setVisibility(View.GONE);
+                            builder.setView(view);
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                            alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                             mAuth.createUserWithEmailAndPassword(email,password)
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if(task.isSuccessful()){
+
+                                                alert.dismiss();
+                                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                                 Uri image = Uri.parse("android.resource://"+ getPackageName()+"/"+R.drawable.noimage);
-                                                Class_BreederClass breederClass= new Class_BreederClass(first,middle,last,contact,address,zip,email,password,image.toString(),"Pet Breeder", uri.toString());
-                                                Class_Breeder_ShopName shopClass = new Class_Breeder_ShopName(last+" Shop","","","",image.toString(),"","");
-                                                FirebaseDatabase.getInstance().getReference("Breeder").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("Breeder Shop").setValue(shopClass);
-                                                FirebaseDatabase.getInstance().getReference("Breeder").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Breeder Info")
-                                                        .setValue(breederClass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if(task.isSuccessful()){
-                                                                    UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(first+" "+
-                                                                            middle+" "+last).build();
-                                                                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).updateProfile(userProfileChangeRequest);
-                                                                    compressImages();
+                                                Uri imageCover= Uri.parse("android.resource://"+ getPackageName()+"/"+R.drawable.nobackground);
+                                                Class_BreederClass breederClass= new Class_BreederClass(first,middle,last,contact,address,zip,email,password,image.toString(),imageCover.toString(),"Pet Breeder");
+                                                Class_Breeder_ShopName shopClass = new Class_Breeder_ShopName(last+" Shop","","","",image.toString(),"", user.getUid());
 
-                                                                    final SweetAlertDialog pDialog = new SweetAlertDialog(
-                                                                            RegistrationForBreeder.this, SweetAlertDialog.PROGRESS_TYPE)
-                                                                            .setTitleText("Loading");
-                                                                    pDialog.show();
-                                                                    pDialog.setCancelable(false);
-                                                                    new CountDownTimer(200 * 7, 200) {
-                                                                        public void onTick(long millisUntilFinished) {
-                                                                            // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
+                                                DocumentReference documentBreeder = firestore.collection("User").document(user.getUid());
+                                                                  documentBreeder.set(breederClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                      @Override
+                                                                      public void onComplete(@NonNull Task<Void> task) {
+                                                                          uploadToStorage(user);
 
-                                                                        }
+                                                                          //for creation of shop data
+                                                                          DocumentReference documentShop = firestore.collection("Shop").document(user.getUid());
+                                                                          documentShop.set(shopClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                              @Override
+                                                                              public void onComplete(@NonNull Task<Void> task) {
+                                                                                  new Handler().postDelayed(new Runnable() {
+                                                                                      @Override
+                                                                                      public void run() {
+                                                                                          AlertDialog.Builder builder2 = new AlertDialog.Builder(RegistrationForBreeder.this);
+                                                                                          builder2.setCancelable(false);
+                                                                                          View view = View.inflate(RegistrationForBreeder.this,R.layout.screen_custom_alert,null);
+                                                                                          //title
+                                                                                          TextView title = view.findViewById(R.id.screen_custom_alert_title);
+                                                                                          //loading text
+                                                                                          TextView loadingText = view.findViewById(R.id.screen_custom_alert_loadingText);
+                                                                                          loadingText.setVisibility(View.GONE);
+                                                                                          //gif
+                                                                                          GifImageView gif = view.findViewById(R.id.screen_custom_alert_gif);
+                                                                                          gif.setVisibility(View.GONE);
+                                                                                          //header image
+                                                                                          AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+                                                                                          imageViewCompat.setVisibility(View.VISIBLE);
+                                                                                          imageViewCompat.setImageDrawable(getDrawable(R.drawable.screen_alert_image_valid_borders));
+                                                                                          //message
+                                                                                          TextView message = view.findViewById(R.id.screen_custom_alert_message);
+                                                                                          title.setText("Account Registered");
+                                                                                          message.setText("Welcome to hiBreed application. You can now showcase all your pets and services online.");
+                                                                                          //button
+                                                                                          LinearLayout buttonLayout = view.findViewById(R.id.screen_custom_alert_buttonLayout);
+                                                                                          buttonLayout.setVisibility(View.VISIBLE);
+                                                                                          //button cancel,okay
+                                                                                          MaterialButton cancel,okay;
+                                                                                          cancel = view.findViewById(R.id.screen_custom_dialog_btn_cancel);
+                                                                                          okay = view.findViewById(R.id.screen_custom_alert_dialog_btn_done);
+                                                                                          cancel.setVisibility(View.GONE);
+                                                                                          builder2.setView(view);
+                                                                                          AlertDialog alert2 = builder2.create();
+                                                                                          alert2.show();
+                                                                                          alert2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                                                                          okay.setOnClickListener(new View.OnClickListener() {
+                                                                                              @Override
+                                                                                              public void onClick(View v) {
+                                                                                                  alert2.dismiss();
+                                                                                                  reg_email.setError("");
+                                                                                                  reg_password.setError("");
+                                                                                                  reg_emailEdit.getText().clear();
+                                                                                                  startActivity(new Intent(RegistrationForBreeder.this, Login.class));
+                                                                                                  FirebaseAuth.getInstance().signOut();
+                                                                                                  finish();
+                                                                                              }
+                                                                                          });
+                                                                                      }
+                                                                                  },2000);
+                                                                              }
+                                                                          });
+                                                                      }
+                                                                  }).addOnFailureListener(new OnFailureListener() {
+                                                                      @Override
+                                                                      public void onFailure(@NonNull Exception e) {
+                                                                          Toast.makeText(RegistrationForBreeder.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                                                      }
+                                                                  });
 
-
-                                                                        @RequiresApi(api = Build.VERSION_CODES.S)
-                                                                        public void onFinish() {
-                                                                            i = -1;
-                                                                            reg_email.setError("");
-                                                                            reg_password.setError("");
-                                                                            pDialog.setTitleText("Account Registered!")
-                                                                                    .setConfirmText("OK")
-                                                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                                                            new Handler().postDelayed(new Runnable() {
-                                                                                                @Override
-                                                                                                public void run() {
-                                                                                                    startActivity(new Intent(RegistrationForBreeder.this, Login.class));
-                                                                                                    finish();
-
-
-                                                                                                }
-                                                                                            },2000);
-
-                                                                                        }
-                                                                                    })
-
-                                                                                    .setContentText("Welcome new Owner!")
-                                                                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-
-                                                                        }
-                                                                    }.start();
-
-                                                                    reg_emailEdit.getText().clear();
-
-                                                                }
-                                                                else{
-                                                                    final SweetAlertDialog pDialog = new SweetAlertDialog(
-                                                                            RegistrationForBreeder.this, SweetAlertDialog.PROGRESS_TYPE)
-                                                                            .setTitleText("Loading");
-                                                                    pDialog.show();
-                                                                    pDialog.setCancelable(false);
-                                                                    new CountDownTimer(200 * 7, 200) {
-                                                                        public void onTick(long millisUntilFinished) {
-                                                                            // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
-
-                                                                        }
-
-                                                                        public void onFinish() {
-                                                                            i = -1;
-                                                                            pDialog.setTitleText("Not Valid!")
-                                                                                    .setConfirmText("OK")
-                                                                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-
-                                                                        }
-                                                                    }.start();
-
-                                                                }
-
-                                                            }
-
-                                                        });
                                             }
                                         }
                                     });
 
                         } else {
-                            final SweetAlertDialog pDialog = new SweetAlertDialog(
-                                    RegistrationForBreeder.this, SweetAlertDialog.PROGRESS_TYPE)
-                                    .setTitleText("Loading");
-                            pDialog.show();
-                            pDialog.setCancelable(false);
-                            new CountDownTimer(200 * 7, 200) {
-                                public void onTick(long millisUntilFinished) {
-                                    // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
-
+                            AlertDialog.Builder builder3 = new AlertDialog.Builder(RegistrationForBreeder.this);
+                            View view2 = View.inflate(RegistrationForBreeder.this,R.layout.screen_custom_alert,null);
+                            builder3.setCancelable(false);
+                            TextView title2 = view2.findViewById(R.id.screen_custom_alert_title);
+                            TextView loadingText = view2.findViewById(R.id.screen_custom_alert_loadingText);
+                            loadingText.setVisibility(View.GONE);
+                            AppCompatImageView imageViewCompat2 = view2.findViewById(R.id.appCompatImageView);
+                            imageViewCompat2.setVisibility(View.VISIBLE);
+                            imageViewCompat2.setImageDrawable(getDrawable(R.drawable.screen_alert_image_error_border));
+                            GifImageView gif = view2.findViewById(R.id.screen_custom_alert_gif);
+                            gif.setVisibility(View.GONE);
+                            TextView message2 = view2.findViewById(R.id.screen_custom_alert_message);
+                            title2.setText("Email address already exist!");
+                            message2.setText("Please use another email address.");
+                            LinearLayout buttonLayout = view2.findViewById(R.id.screen_custom_alert_buttonLayout);
+                            buttonLayout.setVisibility(View.VISIBLE);
+                            MaterialButton cancel,okay;
+                            cancel = view2.findViewById(R.id.screen_custom_dialog_btn_cancel);
+                            cancel.setVisibility(View.GONE);
+                            okay = view2.findViewById(R.id.screen_custom_alert_dialog_btn_done);
+                            okay.setText("Okay");
+                            okay.setBackgroundColor(Color.parseColor("#999999"));
+                            okay.setTextColor(Color.WHITE);
+                            builder3.setView(view2);
+                            AlertDialog alert3 = builder3.create();
+                            alert3.show();
+                            alert3.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            okay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alert3.dismiss();
                                 }
-
-                                public void onFinish() {
-                                    i = -1;
-                                    pDialog.setTitleText("Email is already registered!")
-                                            .hideConfirmButton()
-                                            .setCancelText("Okay")
-                                            .changeAlertType(SweetAlertDialog.WARNING_TYPE);
-                                    pDialog.findViewById(cn.pedant.SweetAlert.R.id.confirm_button).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFCC33")));
-                                    pDialog.findViewById(cn.pedant.SweetAlert.R.id.confirm_button).setBackgroundResource(R.drawable.shapetwo);
-                                }
-                            }.start();
+                            });
 
                             reg_email.setError("Email is already registered. Try another one!");
                             reg_emailEdit.getText().clear();
@@ -816,40 +828,54 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
                 });
     }  //end of method registration()
 
-    private void compressImages(){
 
-        for (int i = 0; i< uri.size(); i++){
-            try{
-                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri.get(i));
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG,60,stream);
-                byte[] imageByte = stream.toByteArray();
-                uploadToFirebase(imageByte);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+
+    int counter;
+    List<String> savedImage = new ArrayList<>();
+    private void uploadToStorage( FirebaseUser user) {
+
+       fileRef = FirebaseStorage.getInstance().getReference("Breeder pictures/"+user.getUid()+"/Certificate");
+
+        for ( int z=0; z < uri.size(); z++){
+            final int last = z;
+            Uri uriLast = uri.get(z);
+            fileRef.child(uriLast.getLastPathSegment()).putFile(uri.get(z)).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            fileRef.child(uriLast.getLastPathSegment()).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    counter++;
+                                    if(task.isSuccessful()){
+                                        savedImage.add(task.getResult().toString());
+                                    }else{
+                                        Toast.makeText(RegistrationForBreeder.this, "Image cannot uploaded_"+uri.get(last)+"_"+last, Toast.LENGTH_SHORT).show();
+                                    }
+                                    if(counter == uri.size()){
+                                        saveToFireStore(user);
+                                    }
+                                }
+                            });
+                        }
+                }
+            });
         }
+
+
     }
 
-
-
-    private void uploadToFirebase(byte[] imageByte) {
-        String userID="";
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-            userID = firebaseUser.getUid();
+    private void saveToFireStore(FirebaseUser user) {
+        DocumentReference def = FirebaseFirestore.getInstance().collection("User")
+                .document(user.getUid());
+        Map<String,String> data = new HashMap<>();
+        for(int i = 0; i < savedImage.size(); i++){
+            data.put("certificate"+i,savedImage.get(i));
         }
-        StorageReference fileRef = FirebaseStorage.getInstance().getReference("Breeder pictures/"+userID+"/"+"certificate/").child("images"+System.currentTimeMillis()+"_"+userID);
-
-        fileRef.putBytes(imageByte).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        def.collection("certificate").document("certificate").set(data,SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onComplete(@NonNull Task<Void> task) {
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Failed to upload",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -870,7 +896,6 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
             view.requestLayout();
         }
     }
-
 
     @Override
     public void clicked(int size) {
@@ -896,10 +921,6 @@ public class RegistrationForBreeder extends AppCompatActivity implements registr
                 dialog.dismiss();
             }
         });
-
         dialog.show();
     }
-
-
-
 }

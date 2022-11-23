@@ -70,11 +70,11 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
+                android:layout_marginLeft="9dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/float_transparent"
                 android:hint="Set breed.."
                 android:inputType="textAutoCorrect"
-                android:maxLength="10"
                 android:textSize="15sp" />
         </RelativeLayout>
         <LinearLayout

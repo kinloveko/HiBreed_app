@@ -1,11 +1,15 @@
-package com.example.hi_breed;
+package com.example.hi_breed.adapter;
 
 public class petClass {
     String pet_birthday,pet_breed,pet_breeder,pet_colorMarkings,pet_description,pet_gender,pet_images,pet_name,pet_price,pet_vaccine;
 
+    Boolean show;
 
-    public petClass(String pet_birthday, String pet_breed, String pet_breeder, String pet_colorMarkings, String pet_description,
-                    String pet_gender, String pet_images, String pet_name, String pet_price, String pet_vaccine) {
+    public  petClass(){
+
+    }
+    public petClass(String pet_name,String pet_description,  String pet_colorMarkings, String pet_breed, String pet_vaccine,
+                    String pet_gender,String pet_birthday, String pet_price, String pet_images,String pet_breeder,Boolean show) {
         this.pet_birthday = pet_birthday;
         this.pet_breed = pet_breed;
         this.pet_breeder = pet_breeder;
@@ -16,6 +20,15 @@ public class petClass {
         this.pet_name = pet_name;
         this.pet_price = pet_price;
         this.pet_vaccine = pet_vaccine;
+        this.show = show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
+    public Boolean getShow() {
+        return show;
     }
 
     public String getPet_birthday() {

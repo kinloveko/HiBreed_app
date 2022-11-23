@@ -2,20 +2,28 @@ package com.example.hi_breed.loginAndRegistration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hi_breed.R;
@@ -23,6 +31,7 @@ import com.example.hi_breed.userFile.dashboard.user_dashboard;
 import com.example.hi_breed.screenLoading.screen_popupdialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -33,6 +42,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import pl.droidsonroids.gif.GifImageView;
 
 public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -41,13 +51,6 @@ public class Login extends AppCompatActivity {
     TextInputLayout emailView , passView ;
     TextInputEditText emailEdit, passEdit;
         Button signIn;
-
-    final Pattern p = Pattern.compile("^" +
-            "(?=.*[@#$%^&!+=])" +     // at least 1 special character
-            "(?=\\S+$)" +            // no white spaces
-            ".{5,}" +                // at least 5 characters
-            "$");
-    final String passError = "Password must contains at least 1 special character[ex.@#$%!^&+],at least 5 characters and no white spaces ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,9 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userAuth = mAuth.getCurrentUser();
         signIn = findViewById(R.id.submitButton);
+
+
+
 
         emailEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,26 +116,23 @@ public class Login extends AppCompatActivity {
         startActivity(new Intent(this, screen_popupdialog.class));
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void checker() {
 
         String email = Objects.requireNonNull(emailEdit.getText()).toString();
         String pass = Objects.requireNonNull(passEdit.getText()).toString();
 
-        CharSequence emailcs = emailEdit.getText();
+
         if (email.isEmpty()) {
             Toast.makeText(this, "Please input your email", Toast.LENGTH_SHORT).show();
             emailEdit.requestFocus();
             return;
 
-        } else if (!(Pattern.matches(Patterns.EMAIL_ADDRESS.pattern(), emailcs))) {
-            Toast.makeText(this, "Please input a valid email ex. example@gmail.com", Toast.LENGTH_SHORT).show();
-            emailEdit.requestFocus();
-            return;
-        } else {
+        }  else {
             emailView.setError("");
         }
 
-        CharSequence passwordcs = passEdit.getText();
+
 
         if (pass.isEmpty()) {
             Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
@@ -139,148 +142,166 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, "Password must have 5 characters", Toast.LENGTH_SHORT).show();
             passEdit.requestFocus();
             return;
-        } else if (!(Pattern.matches(p.pattern(), passwordcs))) {
-            Toast.makeText(this, passError, Toast.LENGTH_SHORT).show();
-            passEdit.requestFocus();
-            return;
         }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        View view = View.inflate(Login.this,R.layout.screen_custom_alert,null);
+        TextView title = view.findViewById(R.id.screen_custom_alert_title);
+        builder.setCancelable(false);
+        AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+        imageViewCompat.setVisibility(View.GONE);
+        GifImageView gif = view.findViewById(R.id.screen_custom_alert_gif);
+        gif.setVisibility(View.GONE);
+        title.setVisibility(View.GONE);
+        TextView message = view.findViewById(R.id.screen_custom_alert_message);
+        message.setVisibility(View.GONE);
+        builder.setView(view);
+        AlertDialog alert = builder.create();
+        alert.show();
+        alert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
+            @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
             @Override
 
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if(user.isEmailVerified()){
-                       SweetAlertDialog pDialog = new SweetAlertDialog(
-                                Login.this, SweetAlertDialog.PROGRESS_TYPE)
-                                .setTitleText("Loading");
-                        pDialog.show();
-                        pDialog.setCancelable(false);
+                    if (task.isSuccessful()) {
+                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    if(user.isEmailVerified()){
+                                     alert.dismiss();
 
-                        new CountDownTimer(200 * 7, 200) {
-                            public void onTick(long millisUntilFinished) {
-                                // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
+                                        AlertDialog.Builder builder2 = new AlertDialog.Builder(Login.this);
+                                        builder2.setCancelable(false);
+                                        View view = View.inflate(Login.this,R.layout.screen_custom_alert,null);
+                                        //title
+                                        TextView title = view.findViewById(R.id.screen_custom_alert_title);
+                                        //loading text
+                                        TextView loadingText = view.findViewById(R.id.screen_custom_alert_loadingText);
+                                        loadingText.setVisibility(View.GONE);
+                                        //gif
+                                        GifImageView gif = view.findViewById(R.id.screen_custom_alert_gif);
+                                        Uri uri = Uri.parse("android.resource://"+ getPackageName()+"/"+R.drawable.kawaii_gif);
+                                        gif.setImageURI(uri);
+                                        //header image
+                                        AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+                                        imageViewCompat.setVisibility(View.VISIBLE);
+                                        imageViewCompat.setImageDrawable(getDrawable(R.drawable.screen_alert_image_valid_borders));
+                                        //message
+                                        TextView message = view.findViewById(R.id.screen_custom_alert_message);
+                                        title.setText("Login Success");
+                                        message.setVisibility(View.GONE);
+                                        //button
 
-                            }
 
-                            @RequiresApi(api = Build.VERSION_CODES.S)
-                            public void onFinish() {
-                                i = -1;
-                                pDialog.setTitleText("Login Success")
-                                        .setConfirmText("OK")
-                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        builder2.setView(view);
+                                        AlertDialog alert2 = builder2.create();
+                                        alert2.show();
+                                        alert2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                        emailView.setError("");
+                                        passView.setError("");
+                                        new Handler().postDelayed(new Runnable() {
                                             @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        Intent intent = new Intent(getApplicationContext(), user_dashboard.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                                                Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                                                        startActivity(intent);
-                                                    }
-                                                }, 0);
-
+                                            public void run() {
+                                                Intent i = new Intent(Login.this,user_dashboard.class);
+                                                // set the new task and clear flags
+                                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(i);
+                                                finish();
                                             }
-                                        })
-                                        .setContentText("Welcome To hiBreed!")
-                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        },2000);
 
-                            }
-                        }.start();
-
-                    }
-                    else{
-                            user.sendEmailVerification();
-                       SweetAlertDialog pDialog = new SweetAlertDialog(
-                                Login.this, SweetAlertDialog.PROGRESS_TYPE)
-                                .setTitleText("Loading");
-                        pDialog.show();
-                        pDialog.setCancelable(false);
-
-                        new CountDownTimer(200 * 7, 200) {
-                            public void onTick(long millisUntilFinished) {
-                                // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
-
-                            }
-
-
-                            @RequiresApi(api = Build.VERSION_CODES.S)
-                            public void onFinish() {
-                                i = -1;
-
-                                pDialog
-                                        .setTitleText("Check your email to verify your account!")
-                                        .setConfirmButton("Okay", new SweetAlertDialog.OnSweetClickListener() {
+                                    }
+                                    else{
+                                        //if user is registered but not verified
+                                        user.sendEmailVerification();
+                                        alert.dismiss();
+                                        AlertDialog.Builder builder3 = new AlertDialog.Builder(Login.this);
+                                        View view = View.inflate(Login.this,R.layout.screen_custom_alert,null);
+                                        builder3.setCancelable(false);
+                                        TextView title = view.findViewById(R.id.screen_custom_alert_title);
+                                        TextView loadingText = view.findViewById(R.id.screen_custom_alert_loadingText);
+                                        loadingText.setVisibility(View.GONE);
+                                        AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+                                        imageViewCompat.setVisibility(View.VISIBLE);
+                                        imageViewCompat.setImageDrawable(getDrawable(R.drawable.screen_alert_image_error_border));
+                                        GifImageView gif = view.findViewById(R.id.screen_custom_alert_gif);
+                                        gif.setVisibility(View.GONE);
+                                        TextView message = view.findViewById(R.id.screen_custom_alert_message);
+                                        title.setText("Please check your email inbox");
+                                        message.setText("We sent you an email verification. Click the link and login again.");
+                                        LinearLayout buttonLayout = view.findViewById(R.id.screen_custom_alert_buttonLayout);
+                                        buttonLayout.setVisibility(View.VISIBLE);
+                                        MaterialButton cancel,okay;
+                                        cancel = view.findViewById(R.id.screen_custom_dialog_btn_cancel);
+                                        cancel.setVisibility(View.GONE);
+                                        okay = view.findViewById(R.id.screen_custom_alert_dialog_btn_done);
+                                        okay.setText("Got it");
+                                        okay.setBackgroundColor(Color.parseColor("#adb6c4"));
+                                        okay.setTextColor(Color.WHITE);
+                                        builder3.setView(view);
+                                        AlertDialog alert3 = builder3.create();
+                                        alert3.show();
+                                        alert3.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                        okay.setOnClickListener(new View.OnClickListener() {
                                             @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                Handler handler = new Handler();
-                                                handler.postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        startActivity(getIntent());
-                                                        finish();
-                                                    }
-                                                },0);
+                                            public void onClick(View v) {
+                                                alert3.dismiss();
+                                                emailEdit.getText().clear();
+                                                passEdit.getText().clear();
+                                                emailView.setError("");
+                                                passView.setError("");
                                             }
-                                        })
-                                        .changeAlertType(SweetAlertDialog.WARNING_TYPE);
-                                pDialog.findViewById(cn.pedant.SweetAlert.R.id.confirm_button).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFCC33")));
-                                pDialog.findViewById(cn.pedant.SweetAlert.R.id.confirm_button).setBackgroundResource(R.drawable.shapetwo);
-                            }
-                        }.start();
-                    }
+                                        });
+                                    }
                     } else {
+                        alert.dismiss();
+                        //Account doesn't Exist
+                        emailView.setError("");
+                        passView.setError("");
 
-                    SweetAlertDialog pDialog = new SweetAlertDialog(
-                            Login.this, SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Loading");
-                    pDialog.show();
-                    pDialog.setCancelable(false);
-                        new CountDownTimer(200 * 7, 200) {
-                            public void onTick(long millisUntilFinished) {
-                                // you can change the progress bar color by ProgressHelper every 800 millis                        i++;
-
+                        AlertDialog.Builder builder3 = new AlertDialog.Builder(Login.this);
+                        View view = View.inflate(Login.this,R.layout.screen_custom_alert,null);
+                        builder3.setCancelable(false);
+                        TextView title = view.findViewById(R.id.screen_custom_alert_title);
+                        TextView loadingText = view.findViewById(R.id.screen_custom_alert_loadingText);
+                        loadingText.setVisibility(View.GONE);
+                        AppCompatImageView imageViewCompat = view.findViewById(R.id.appCompatImageView);
+                        imageViewCompat.setVisibility(View.VISIBLE);
+                        imageViewCompat.setImageDrawable(getDrawable(R.drawable.screen_alert_image_error_border));
+                        GifImageView gif = view.findViewById(R.id.screen_custom_alert_gif);
+                        gif.setVisibility(View.GONE);
+                        TextView message = view.findViewById(R.id.screen_custom_alert_message);
+                        title.setText("Account doesn't exist");
+                        message.setText("Don't have an account? Click Register button.");
+                        LinearLayout buttonLayout = view.findViewById(R.id.screen_custom_alert_buttonLayout);
+                        buttonLayout.setVisibility(View.VISIBLE);
+                        MaterialButton cancel,okay;
+                        cancel = view.findViewById(R.id.screen_custom_dialog_btn_cancel);
+                        okay = view.findViewById(R.id.screen_custom_alert_dialog_btn_done);
+                        okay.setText("Register");
+                        okay.setBackgroundColor(Color.parseColor("#F6B75A"));
+                        okay.setTextColor(Color.WHITE);
+                        builder3.setView(view);
+                        AlertDialog alert4 = builder3.create();
+                        alert4.show();
+                        alert4.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alert4.dismiss();
                             }
-
-                            public void onFinish() {
-                                i = -1;
-                                pDialog.setTitleText("Account doesn't Exist")
-                                        .setContentText("Choose cancel if you want to login again or go to Registration")
-                                        .setConfirmText("Register")
-                                        .setCancelText("Cancel")
-                                        .setConfirmButton("Register", new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                Handler handler = new Handler();
-                                                handler.postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        passEdit.getText().clear();
-                                                        emailEdit.getText().clear();
-                                                        startActivity(new Intent(Login.this, screen_popupdialog.class));
-                                                        finish();
-                                                    }
-                                                } ,0);
-                                            }
-                                        })
-                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-
-
+                        });
+                        okay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alert4.dismiss();
+                                startActivity(new Intent(Login.this,screen_popupdialog.class));
+                                finish();
                             }
-                        }.start();
-                    emailView.setError("");
-                    passView.setError("");
-
+                        });
                     }
-
                 }
-
         });
 
     }

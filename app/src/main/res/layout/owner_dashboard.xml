@@ -14,26 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
         />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/OwnerBottom_navigation"
-    app:itemIconSize="28dp"
-    android:background="@drawable/dropshadow_fouro"
-    app:labelVisibilityMode="labeled"
-        android:visibility="gone"
-        app:elevation="-3dp"
-    app:itemIconTint="@drawable/bottom_owner_navigation_color"
-    app:itemTextColor="@color/black"
-    app:menu="@menu/owner_bn_menu"
-    />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BreederBottom_navigation"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:background="@drawable/dropshadow_fouro"
         app:itemIconSize="28dp"

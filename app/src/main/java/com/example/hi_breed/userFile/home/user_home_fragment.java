@@ -1,8 +1,8 @@
 package com.example.hi_breed.userFile.home;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,50 +10,51 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.hi_breed.adapter.petClass;
+import com.example.hi_breed.adapter.productPetRecyclerAdapter;
+import com.example.hi_breed.R;
 import com.example.hi_breed.classesFile.Class_BreederClass;
 import com.example.hi_breed.classesFile.Class_OwnerClass;
-import com.example.hi_breed.R;
-import com.example.hi_breed.petClass;
 import com.example.hi_breed.userFile.profile.user_profile_edit;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
-import okhttp3.internal.cache.DiskLruCache;
 
 public class user_home_fragment extends Fragment {
     ImageSlider imageSlider;
-    private DatabaseReference databaseReferenceOwner,databaseReferenceBreeder;
+
     private FirebaseUser firebaseUser;
+    FirebaseFirestore fireStore;
+
     ImageView imageView;
     CardView profilePictureCard;
-
-
-
+    RecyclerView recyclerView;
+    productPetRecyclerAdapter adapter;
+    ArrayList<petClass> list;
+    DocumentReference databaseReference;
     public user_home_fragment() {
         // Required empty public constructor
     }
 
-
+    String hold="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +72,15 @@ public class user_home_fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        profilePictureCard = view.findViewById(R.id.cardView);
 
+
+        profilePictureCard = view.findViewById(R.id.cardView);
+        //fireStore
+        fireStore = FirebaseFirestore.getInstance();
+
+        //user
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        //image Slider
         imageSlider = view.findViewById(R.id.imageSlider);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
         slideModels.add(new SlideModel(R.drawable.slide_third, ScaleTypes.FIT));
@@ -80,18 +88,18 @@ public class user_home_fragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.slide_second, ScaleTypes.FIT));
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
-        
+        //RecyclerView
+        recyclerView = view.findViewById(R.id.petDisplay);
 
-
-        databaseReferenceBreeder = FirebaseDatabase.getInstance().getReference().child("Breeder");
-        databaseReferenceOwner = FirebaseDatabase.getInstance().getReference().child("Owner");
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        //imageView
         imageView = view.findViewById(R.id.profileImage);
         String userID ="";
         if (firebaseUser != null) {
             userID = firebaseUser.getUid();
             // calling the user info to display the details about the user.
-            getUserInfo(userID);
+
+            databaseReference = fireStore.collection("User").document(userID);
+            getUserInfo(databaseReference);
         }
 
         profilePictureCard.setOnClickListener(new View.OnClickListener() {
@@ -103,40 +111,34 @@ public class user_home_fragment extends Fragment {
 
     }
 
-    private void getUserInfo(String userID) {
+    private void getUserInfo(DocumentReference userID) {
+        userID.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()){
+                        String role = documentSnapshot.getString("role");
+                        if(role.equals("Pet Breeder")){
+                           String breederClass = documentSnapshot.getString("image");
+                            if(breederClass== "" || breederClass==null ){
+                                imageView.setImageResource(R.drawable.noimage);
+                            }
+                            else{
+                                Picasso.get().load(breederClass).into(imageView);
+                            }
 
-                    databaseReferenceBreeder.child(userID).child("Breeder Info").addListenerForSingleValueEvent(new ValueEventListener() {
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists() && snapshot.getChildrenCount() >0){
-                                Class_BreederClass breederClass = snapshot.getValue(Class_BreederClass.class);
-                                if(breederClass  != null) {
-                                    Picasso.get().load(breederClass .getImage()).into(imageView);
-                                }
+                        }
+                        else{
+                            String ownerClass= documentSnapshot.getString("image");
+                            if(ownerClass == "" || ownerClass == null){
+                                imageView.setImageResource(R.drawable.noimage);
+                            }
+                            else{
+                                Picasso.get().load(ownerClass).into(imageView);
                             }
                         }
+                    }
+            }
+        });
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    //Reference for Owner
-                    databaseReferenceOwner.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists() && snapshot.getChildrenCount() >0){
-                                Class_OwnerClass ownerProfile = snapshot.getValue(Class_OwnerClass.class);
-                                if(ownerProfile != null) {
-                                    Picasso.get().load(ownerProfile.getImage()).into(imageView);
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
      }
 }

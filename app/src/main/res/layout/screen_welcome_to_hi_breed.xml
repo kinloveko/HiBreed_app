@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   android:background="@color/white"
+
     tools:context=".screenLoading.screen_WelcomeToHiBreed">
 
     <RelativeLayout
@@ -75,54 +76,44 @@
         <ImageView
             android:id="@+id/img2"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_below="@id/textView8"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="-65dp"
+            android:layout_marginTop="107dp"
             android:layout_marginEnd="-65dp"
             android:src="@drawable/icon_cat" />
 
         <ImageView
             android:id="@+id/img1"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_below="@id/textView8"
             android:layout_alignParentStart="true"
             android:layout_marginStart="-65dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="107dp"
             android:src="@drawable/icon_cat_two" />
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/textView10"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="15dp"
-            android:layout_toStartOf="@id/img2"
-            android:layout_toEndOf="@id/img1"
-            android:src="@drawable/paw"
-            android:translationZ="3dp" />
 
         <RelativeLayout
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/textView8"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="200dp"
             android:background="@drawable/stlye_border_relative_four"
             android:backgroundTint="#fff8e5"
             android:gravity="center">
 
             <TextView
                 android:id="@+id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/stlye_border_relative_four"
                 android:fontFamily="sans-serif-condensed"
                 android:padding="10dp"
@@ -168,7 +159,6 @@
             android:fontFamily="@font/bobble"
             android:onClick="createAccount_Onclick"
             android:text="Create an account"
-
             android:textColor="@color/material_blue_grey_80"
             android:textSize="23dp"
             tools:ignore="HardcodedText,SpUsage,UsingOnClickInXml" />

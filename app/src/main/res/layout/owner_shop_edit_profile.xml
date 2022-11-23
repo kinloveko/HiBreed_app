@@ -94,17 +94,16 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-
-                android:foreground="#99000000">
-
+                android:foreground="#99C1A9A9">
+                <ImageView
+                    android:id="@+id/view_shop_coverImageID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/nobackground" />
             </FrameLayout>
 
-            <ImageView
-                android:id="@+id/view_shop_coverImageID"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/noimage" />
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_shop_Profile"
@@ -124,7 +123,7 @@
                 <FrameLayout
                     android:layout_gravity="bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="19dp"
+                    android:layout_height="18dp"
                     android:foreground="#9C2B2B2B">
                 </FrameLayout>
                 <TextView
@@ -132,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:text="Edit"
                     android:textSize="11dp"
+                    android:layout_marginBottom="3dp"
                     android:textColor="@color/white"
                     android:textAlignment="center"
                     android:layout_gravity="bottom"
@@ -161,17 +161,27 @@
         <RelativeLayout
             android:id="@+id/shopnameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_below="@id/infoLayout"
-            android:background="@color/white">
 
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/dropshadow_six"
+            android:elevation="3dp">
+
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="@color/brownish" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Shop Name:"
                 android:textColor="@color/material_blue_grey_95"
@@ -182,9 +192,8 @@
                 android:id="@+id/shop_edit_shopName"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_toStartOf="@id/arrowRightID"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppinsemibold"
@@ -199,27 +208,34 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/profile_arrowright"
-
                 tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/bioLayout"
-            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_below="@id/shopnameLayout"
-            android:background="@color/white">
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/dropshadow_six"
+            android:elevation="3dp">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="@color/brownish" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Bio:"
                 android:textColor="@color/material_blue_grey_95"
@@ -231,12 +247,11 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toStartOf="@id/arrowRightIDBio"
                 android:ellipsize="end"
-                android:maxLines="1"
                 android:fontFamily="@font/poppinsemibold"
+                android:maxLines="1"
                 android:text="Bio"
                 android:textAlignment="textEnd"
                 android:textSize="13sp"
@@ -247,7 +262,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/profile_arrowright"
 
                 tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
@@ -257,19 +271,26 @@
         <RelativeLayout
             android:id="@+id/genderLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_below="@id/bioLayout"
-            android:layout_marginTop="2dp"
-            android:background="@color/white"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="3dp"
+            android:background="@drawable/dropshadow_six"
             tools:ignore="OnClick,UsingOnClickInXml">
 
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="@color/brownish" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Gender:"
                 android:textColor="@color/material_blue_grey_95"
@@ -281,8 +302,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toStartOf="@id/arrowRightIDGender"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Gender"
@@ -294,9 +314,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/profile_arrowright"
-
                 tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
 
         </RelativeLayout>
@@ -304,18 +322,26 @@
         <RelativeLayout
             android:id="@+id/birthdayLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="3dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@id/genderLayout"
             android:layout_marginTop="2dp"
-            android:background="@color/white">
+            android:background="@drawable/dropshadow_six">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="@color/brownish" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Birthday:"
                 android:textColor="@color/material_blue_grey_95"
@@ -327,8 +353,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toStartOf="@id/arrowRightIDBirthday"
                 android:fontFamily="@font/poppinsemibold"
                 android:text="Birthday"
@@ -340,7 +365,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/profile_arrowright"
                 tools:ignore="ContentDescription,MissingConstraints,NestedWeights" />
 

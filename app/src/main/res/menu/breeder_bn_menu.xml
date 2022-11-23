@@ -9,23 +9,15 @@
             android:title="Home"
             android:icon="@drawable/nav_home"
             android:state_checked="true"
-
             android:background="@drawable/nav_home"
             tools:ignore="ExtraText,HardcodedText" />
 //Likes
         <item
               android:id="@+id/breeder_likesItem"
               android:title="Likes"
-
-
-              android:icon="@drawable/nav_likes"
+              android:icon="@drawable/icon_heart"
               tools:ignore="HardcodedText" />
-//Shop
-        <item
-            android:id="@+id/breeder_shop"
-            android:title="Shop"
-            android:icon="@drawable/nav_store"
-            tools:ignore="HardcodedText" />
+
 //Orders
         <item
               android:id="@+id/breeder_Order"

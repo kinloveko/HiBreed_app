@@ -32,4 +32,5 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/brownish</color>
     <color name="background_holo_light">#F4511E</color>
     <color name="theme">#ffc36e</color>
+    <color name="semiRed">#D38B8B</color>
 </resources>
